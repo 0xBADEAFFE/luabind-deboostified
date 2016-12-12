@@ -34,7 +34,7 @@ namespace luabind { namespace meta
 	{
 		using type =  T;
 	};
-	
+
 	struct init_order {
 		init_order(std::initializer_list<int>) {}
 	};
@@ -116,7 +116,7 @@ namespace luabind { namespace meta
 
 	// Used as terminator on type and index lists
 	struct null_type {};
-	
+
 	template< typename... Types >
 	struct type_list : public type_list_tag
 	{
@@ -128,7 +128,7 @@ namespace luabind { namespace meta
 	type_list<Types1..., Types2...> operator|(const type_list<Types1...>&, const type_list<Types2...>&) {
 		return type_list<Types1..., Types2...>();
 	}
-	
+
 	template< typename T >
 	struct is_typelist : public std::false_type
 	{
@@ -252,10 +252,10 @@ namespace luabind { namespace meta
 	{
 		using TypeList = type_list< Types... >;
 
-		using type = join_t< 
+		using type = join_t<
 						sub_range_t< TypeList, 0, Index >,
 						meta::type_list<Type>,
-						sub_range_t< TypeList, Index + 1, sizeof...(Types) > 
+						sub_range_t< TypeList, Index + 1, sizeof...(Types) >
 					>;
 	};
 
@@ -288,10 +288,10 @@ namespace luabind { namespace meta
 		using type = join_t<
 			sub_range_t< type_list<Types...>, 0, Index >,
 			typename Function< get_t< type_list<Types...>, Index> >::type,
-			sub_range_t< type_list<Types...>, Index + 1, sizeof...(Types) >	
+			sub_range_t< type_list<Types...>, Index + 1, sizeof...(Types) >
 		>;
 	};
-	
+
 	/*
 	Transform all elements of a type list
 	*/
@@ -331,10 +331,10 @@ namespace luabind { namespace meta
 	template< typename Case, typename... CaseList >
 	struct select_
 	{
-		using type = typename std::conditional< 
+		using type = typename std::conditional<
 								std::is_convertible<Case, std::true_type>::value,
-								typename Case::type, 
-								typename select_<CaseList...>::type 
+								typename Case::type,
+								typename select_<CaseList...>::type
 							  >::type;
 	};
 
@@ -344,7 +344,7 @@ namespace luabind { namespace meta
 		using type = typename std::conditional<
 								std::is_convertible<Case, std::true_type>::value,
 								typename Case::type,
-								null_type 
+								null_type
 							  >::type;
 	};
 
@@ -469,7 +469,7 @@ namespace luabind { namespace meta
 		struct sub_range_index< SourceList, index_list< Indices... > > {
 			using type = index_list< get< SourceList, Indices >::value... >;
 		};
-		
+
 		template< typename SourceList, typename IndexList >
 		struct sub_range_type;
 
@@ -524,7 +524,7 @@ namespace luabind { namespace meta
 
 	template< typename T >
 	struct sum;
-	
+
 	template< unsigned int... Args >
 	struct sum< index_list<Args...> >
 	{
@@ -562,7 +562,7 @@ namespace luabind { namespace meta
 		: std::conditional <
 		std::is_convertible< Convertible0, std::true_type >::value,
 		std::true_type,
-		or_< Convertibles... > 
+		or_< Convertibles... >
 		> ::type
 	{
 	};
@@ -576,4 +576,3 @@ namespace luabind { namespace meta
 }}
 
 #endif
-

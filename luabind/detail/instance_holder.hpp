@@ -10,7 +10,7 @@
 # include <luabind/typeid.hpp>
 # include <stdexcept>
 
-namespace luabind { 
+namespace luabind {
 	namespace detail {
 
 		class instance_holder
@@ -45,7 +45,7 @@ namespace luabind {
 			{
 			}
 
-			std::pair<void*, int> get(cast_graph const& casts, class_id target) const
+			std::pair<void*, int> get(cast_graph const& casts, class_id target) const override
 			{
 				// if somebody wants the smart-ptr, he can get a reference to it
 				if (target == registered_class<P>::id) return std::pair<void*, int>(&this->p, 0);
@@ -65,7 +65,7 @@ namespace luabind {
 				return p ? true : false;
 			}
 
-			void release()
+			void release() override
 			{
 				weak = const_cast<void*>(static_cast<void const*>(get_pointer(p)));
 				release_ownership(p);
@@ -82,7 +82,7 @@ namespace luabind {
 		};
 
 		template <class ValueType>
-		class value_holder : 
+		class value_holder :
 			public instance_holder
 		{
 		public:
@@ -96,7 +96,7 @@ namespace luabind {
 				return true;
 			}
 
-			std::pair<void*, int> get(cast_graph const& casts, class_id target) const
+			std::pair<void*, int> get(cast_graph const& casts, class_id target) const override
 			{
 				const auto this_id = registered_class<ValueType>::id;
 				void* const naked_ptr = const_cast<void*>((const void*)&val_);
@@ -115,13 +115,13 @@ namespace luabind {
 			Pointer types should automatically convert to reference types
 		*/
 		template <class ValueType>
-		class pointer_like_holder : 
+		class pointer_like_holder :
 			public instance_holder
 		{
 		public:
 			// No need for dynamic_id / dynamic_ptr, since we always get the most derived type
             pointer_like_holder(lua_State* /*L*/, ValueType val, class_id dynamic_id, void* dynamic_ptr)
-				: 
+				:
 				instance_holder(std::is_const< decltype(*get_pointer(val)) >::value),
 				val_(std::move(val)),
 				dynamic_id_(dynamic_id),
@@ -134,7 +134,7 @@ namespace luabind {
 				return val_ ? true : false;
 			}
 
-			std::pair<void*, int> get(cast_graph const& casts, class_id target) const
+			std::pair<void*, int> get(cast_graph const& casts, class_id target) const override
 			{
 				const auto value_id = registered_class<ValueType>::id;
 				void* const naked_value_ptr = const_cast<void*>((const void*) &val_);
@@ -162,4 +162,3 @@ namespace luabind {
 } // namespace luabind::detail
 
 #endif // LUABIND_INSTANCE_HOLDER_081024_HPP
-

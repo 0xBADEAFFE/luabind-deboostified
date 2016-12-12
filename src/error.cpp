@@ -21,20 +21,18 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define LUABIND_BUILDING
-
 #include <luabind/error.hpp>
 #ifndef LUA_INCLUDE_HPP_INCLUDED
 #include <luabind/lua_include.hpp>
-#endif
-
+#endif // LUA_INCLUDE_HPP_INCLUDED
 
 namespace luabind
 {
-#ifndef LUABIND_NO_EXCEPTIONS	
+#ifndef LUABIND_NO_EXCEPTIONS
 	error::error(lua_State* L)
 	{
 		const char* message=lua_tostring(L, -1);
-		
+
 		if (message)
 		{
 			m_message=message;
@@ -43,24 +41,21 @@ namespace luabind
 		lua_pop(L, 1);
 	}
 
-
 	const char* error::what() const throw()
 	{
 		return m_message.c_str();
 	}
-#endif
+#endif // LUABIND_NO_EXCEPTIONS
 	namespace
 	{
 		pcall_callback_fun pcall_callback = 0;
 #ifdef LUABIND_NO_EXCEPTIONS
 		error_callback_fun error_callback = 0;
 		cast_failed_callback_fun cast_failed_callback = 0;
-#endif
+#endif // LUABIND_NO_EXCEPTIONS
 	}
 
-
 #ifdef LUABIND_NO_EXCEPTIONS
-
 	void set_error_callback(error_callback_fun e)
 	{
 		error_callback = e;
@@ -80,8 +75,7 @@ namespace luabind
 	{
 		return cast_failed_callback;
 	}
-
-#endif
+#endif // LUABIND_NO_EXCEPTIONS
 
 	void set_pcall_callback(pcall_callback_fun e)
 	{
@@ -92,10 +86,8 @@ namespace luabind
 	{
 		return pcall_callback;
 	}
-    
-    unresolved_name::unresolved_name(const char* desc, const char* name) :
-        std::runtime_error((luabind::string(desc)+": "+name).c_str())
-    {}
+
+  unresolved_name::unresolved_name(const char* desc, const char* name) :
+		std::runtime_error((luabind::string(desc)+": "+name).c_str()){}
 
 }
-

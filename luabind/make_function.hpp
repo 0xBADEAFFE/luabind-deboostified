@@ -15,16 +15,16 @@ namespace luabind {
 
 	namespace detail
 	{
-# ifndef LUABIND_NO_EXCEPTIONS
+#ifndef LUABIND_NO_EXCEPTIONS
 		LUABIND_API void handle_exception_aux(lua_State* L);
-# endif
+#endif // LUABIND_NO_EXCEPTIONS
 
 // MSVC complains about member being sensitive to alignment (C4121)
 // when F is a pointer to member of a class with virtual bases.
-# ifdef _MSC_VER
-#  pragma pack(push)
-#  pragma pack(16)
-# endif
+#ifdef _MSC_VER
+#pragma pack(push)
+#pragma pack(16)
+#endif // _MSC_VER
 
 		template <class F, class Signature, class InjectorList>
 		struct function_object_impl : function_object
@@ -39,7 +39,7 @@ namespace luabind {
 				return invoke(L, *this, ctx, f, Signature(), InjectorList());
 #else
 				return invoke<InjectorList, Signature>(L, *this, ctx, f);
-#endif
+#endif // LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 			}
 
 			int format_signature(lua_State* L, char const* function, bool concat = true) const
@@ -56,7 +56,7 @@ namespace luabind {
 					results = invoke(L, *impl, ctx, impl->f, Signature(), InjectorList());
 #else
 					results = invoke<InjectorList, Signature>(L, *impl, ctx, impl->f);
-#endif
+#endif // LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 				}
 				catch(...) {
 					exception_caught = true;
@@ -75,16 +75,16 @@ namespace luabind {
 				invoke_context ctx;
 				int results = 0;
 
-# ifndef LUABIND_NO_EXCEPTIONS
-                bool exception_caught = invoke_defer(L, impl, ctx, results);
+#ifndef LUABIND_NO_EXCEPTIONS
+        bool exception_caught = invoke_defer(L, impl, ctx, results);
 				if(exception_caught) lua_error(L);
-# else
-	#ifndef LUABIND_NO_INTERNAL_TAG_ARGUMENTS
+#else
+#ifndef LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 				results = invoke(L, *impl, ctx, impl->f, Signature(), InjectorList());
-	#else
+#else
 				results = invoke<InjectorList, Signature>(L, *impl, ctx, impl->f);
-	#endif
-# endif
+#endif // LUABIND_NO_INTERNAL_TAG_ARGUMENTS
+#endif // LUABIND_NO_EXCEPTIONS
 				if(!ctx) {
 					ctx.format_error(L, impl);
 					lua_error(L);
@@ -96,9 +96,9 @@ namespace luabind {
 			F f;
 		};
 
-# ifdef _MSC_VER
-#  pragma pack(pop)
-# endif
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif // _MSC_VER
 
 		LUABIND_API object make_function_aux(lua_State* L, function_object* impl, bool default_scope = false);
 		LUABIND_API void add_overload(object const&, char const*, object const&);
@@ -130,4 +130,3 @@ namespace luabind {
 } // namespace luabind
 
 #endif // LUABIND_MAKE_FUNCTION_081014_HPP
-

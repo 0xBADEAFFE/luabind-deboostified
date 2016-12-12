@@ -20,8 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-#ifndef LUABIND_CALL_SHARED_HPP_INCLUDED
-#define LUABIND_CALL_SHARED_HPP_INCLUDED
+#ifndef LUABIND_CALL_SHARED_HPP
+#define LUABIND_CALL_SHARED_HPP
+#include <luabind/error.hpp>
 
 namespace luabind {
 	namespace detail {
@@ -37,7 +38,7 @@ namespace luabind {
 			assert(0 && "the lua function threw an error and exceptions are disabled."
 				" If you want to handle the error you can use luabind::set_error_callback()");
 			std::terminate();
-#endif
+#endif // LUABIND_NO_EXCEPTIONS
 		}
 
 		template<typename T>
@@ -47,12 +48,13 @@ namespace luabind {
 			throw cast_failed(L, typeid(T));
 #else
 			cast_failed_callback_fun e = get_cast_failed_callback();
+			// NOTE: Fix later
 			if (e) const e(L, typeid(T));
 
 			assert(0 && "the lua function's return value could not be converted."
 				" If you want to handle the error you can use luabind::set_cast_failed_callback()");
 			std::terminate();
-#endif
+#endif // LUABIND_NO_EXCEPTIONS
 		}
 
 		template< typename... Args >
@@ -62,4 +64,4 @@ namespace luabind {
 	}
 }
 
-#endif
+#endif // LUABIND_CALL_SHARED_HPP

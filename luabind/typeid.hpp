@@ -3,10 +3,10 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef LUABIND_TYPEID_081227_HPP
-# define LUABIND_TYPEID_081227_HPP
+#define LUABIND_TYPEID_081227_HPP
 
-# include <typeinfo>
-# include <luabind/detail/primitives.hpp>
+#include <typeinfo>
+#include <luabind/detail/primitives.hpp>
 
 namespace luabind {
 
@@ -53,4 +53,3 @@ private:
 } // namespace luabind
 
 #endif // LUABIND_TYPEID_081227_HPP
-

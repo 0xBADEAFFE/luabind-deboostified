@@ -5,7 +5,6 @@
 #define LUABIND_BUILDING
 
 #include <luabind/lua_include.hpp>
-
 #include <luabind/config.hpp>           // for LUABIND_API
 
 #ifndef LUABIND_NO_EXCEPTIONS
@@ -89,4 +88,3 @@ LUABIND_API void register_exception_handler(exception_handler_base* handler)
 }} // namespace luabind::detail
 
 #endif // LUABIND_NO_EXCEPTIONS
-

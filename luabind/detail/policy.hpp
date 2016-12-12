@@ -37,7 +37,7 @@
 #include <luabind/detail/meta.hpp>
 
 #if LUA_VERSION_NUM < 502
-# define lua_rawlen lua_objlen
+#define lua_rawlen lua_objlen
 #endif
 
 namespace luabind
@@ -129,7 +129,7 @@ namespace luabind
 		// for the concrete type [T] with [Direction] being either "lua_to_cpp" or "cpp_to_lua".
 		template<unsigned int Index, typename PolicyList, typename T, typename Direction>
 		using specialized_converter_policy_n = typename policy_detail::get_converter_policy<Index, PolicyList>::type::template specialize<T, Direction >::type;
-		
+
 		/*
 			call_policies
 		*/
@@ -151,4 +151,3 @@ namespace luabind {
 }
 
 #endif // LUABIND_POLICY_HPP_INCLUDED
-

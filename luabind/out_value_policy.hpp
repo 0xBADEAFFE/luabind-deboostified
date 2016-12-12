@@ -188,12 +188,14 @@ namespace luabind { namespace detail
 		};
 	};
 
+// NOTE: Not compiling with gcc
+/*
 	template<int Size, class Policies = no_policies>
 	struct pure_out_value_converter
 	{
 		enum { consumed_args = 0 };
 
-        template<class T>
+    template<class T>
 		T& to_cpp(lua_State*, by_reference<T>, int)
 		{
 			storage_.template construct<T>();
@@ -254,7 +256,7 @@ namespace luabind { namespace detail
 			typedef pure_out_value_converter<indirect_sizeof<T>::value, Policies> type;
 		};
 	};
-
+*/
 }}
 
 namespace luabind
@@ -264,8 +266,11 @@ namespace luabind
 		template<unsigned int N>
 		using out_value = converter_policy_injector<N, detail::out_value_policy<>>;
 
+// NOTE: Not compiling with gcc
+/*
 		template<unsigned int N>
 		using pure_out_value = converter_policy_injector<N, detail::pure_out_value_policy<>>;
+*/
 	}
 }
 

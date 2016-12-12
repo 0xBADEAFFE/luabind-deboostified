@@ -12,7 +12,7 @@
 # include <vector>
 # include <luabind/typeid.hpp>
 
-namespace luabind { 
+namespace luabind {
 
 	namespace detail {
 
@@ -78,11 +78,17 @@ namespace luabind {
 
 		inline class_id class_id_map::get_local(type_id const& type)
 		{
-			std::pair<map_type::iterator, bool> result = m_classes.insert(std::make_pair(type, 0));
+			auto i = m_classes.find(type);
+	    class_id result;
+	    if (i == m_classes.end()) {
+	       result = m_local_id;
+	       m_classes.emplace(type, m_local_id++);
+	    } else {
+	       result = i->second;
+	    }
+      assert(m_local_id >= local_id_base);
 
-			if (result.second) result.first->second = m_local_id++;
-			assert(m_local_id>=local_id_base);
-			return result.first->second;
+	    return result;
 		}
 
 		inline void class_id_map::put(class_id id, type_id const& type)
@@ -165,4 +171,3 @@ namespace luabind {
 } // namespace luabind
 
 #endif // LUABIND_INHERITANCE_090217_HPP
-

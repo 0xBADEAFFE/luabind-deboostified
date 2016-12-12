@@ -26,28 +26,28 @@
 // the maximum number of arguments of functions that's
 // registered. Must at least be 2
 #ifndef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 100
+#define LUABIND_MAX_ARITY 100
 #elif LUABIND_MAX_ARITY <= 1
-	#undef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 2
-#endif
+#undef LUABIND_MAX_ARITY
+#define LUABIND_MAX_ARITY 2
+#endif // LUABIND_MAX_ARITY
 
 // the maximum number of classes one class
 // can derive from
 // max bases must at least be 1
 #ifndef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 100
+#define LUABIND_MAX_BASES 100
 #elif LUABIND_MAX_BASES <= 0
-	#undef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 1
-#endif
+#undef LUABIND_MAX_BASES
+#define LUABIND_MAX_BASES 1
+#endif // LUABIND_MAX_BASES
 
 #ifdef NDEBUG
-# ifndef LUABIND_NO_ERROR_CHECKING
-#  define LUABIND_NO_ERROR_CHECKING
-# endif
+#ifndef LUABIND_NO_ERROR_CHECKING
+#define LUABIND_NO_ERROR_CHECKING
+#endif // LUABIND_NO_ERROR_CHECKING
 #define LUABIND_NO_EXCEPTIONS
-#endif
+#endif // NDEBUG
 
 // LUABIND_NO_ERROR_CHECKING
 // define this to remove all error checks
@@ -77,27 +77,27 @@
 // C code has undefined behavior, lua is written in C).
 
 #ifdef LUABIND_DYNAMIC_LINK
-# if defined (_WIN32)
-#  ifdef LUABIND_BUILDING
-#   define LUABIND_API __declspec(dllexport)
-#  else
-#   define LUABIND_API __declspec(dllimport)
-#  endif
-# elif defined (__CYGWIN__)
-#  ifdef LUABIND_BUILDING
-#   define LUABIND_API __attribute__ ((dllexport))
-#  else
-#   define LUABIND_API __attribute__ ((dllimport))
-#  endif
-# else
-#  if defined(_GNUC_) && _GNUC_ >=4
-#   define LUABIND_API __attribute__ ((visibility("default")))
-#  endif
-# endif
+#if defined (_WIN32)
+#ifdef LUABIND_BUILDING
+#define LUABIND_API __declspec(dllexport)
+#else
+#define LUABIND_API __declspec(dllimport)
+#endif // LUABIND_BUILDING
+#elif defined (__CYGWIN__)
+#ifdef LUABIND_BUILDING
+#define LUABIND_API __attribute__ ((dllexport))
+#else
+#define LUABIND_API __attribute__ ((dllimport))
+#endif // LUABIND_BUILDING
+#else
+#if defined(_GNUC_) && _GNUC_ >=4
+#define LUABIND_API __attribute__ ((visibility("default")))
 #endif
+#endif // _WIN32
+#endif // LUABIND_DYNAMIC_LINK
 
 #ifndef LUABIND_API
-# define LUABIND_API
+#define LUABIND_API
 #endif
 
 #ifndef _WIN32
@@ -105,8 +105,8 @@
 #define __cdecl
 #ifndef _FARQ
 #define _FARQ
-#endif
-#endif
+#endif // _FARQ
+#endif // _WIN32
 
 // This switches between using tag arguments / structure specialization for code size tests
 #define LUABIND_NO_INTERNAL_TAG_ARGUMENTS

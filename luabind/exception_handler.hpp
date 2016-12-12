@@ -12,7 +12,7 @@
 
 namespace luabind {
 
-# ifndef LUABIND_NO_EXCEPTIONS
+#ifndef LUABIND_NO_EXCEPTIONS
 
 namespace detail
 {
@@ -60,19 +60,18 @@ namespace detail
 
 } // namespace detail
 
-# endif
+#endif // LUABIND_NO_EXCEPTIONS
 
 template<class E, class Handler>
 void register_exception_handler(Handler handler, meta::type<E>* = 0)
 {
-# ifndef LUABIND_NO_EXCEPTIONS
+#ifndef LUABIND_NO_EXCEPTIONS
     detail::register_exception_handler(
         luabind_new<detail::exception_handler<E, Handler>>(handler)
     );
-# endif
+#endif // LUABIND_NO_EXCEPTIONS
 }
 
 } // namespace luabind
 
 #endif // LUABIND_EXCEPTION_HANDLER_050601_HPP
-
