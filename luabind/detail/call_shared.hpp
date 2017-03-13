@@ -23,6 +23,7 @@
 #ifndef LUABIND_CALL_SHARED_HPP
 #define LUABIND_CALL_SHARED_HPP
 #include <luabind/error.hpp>
+#include <luabind/typeid.hpp>
 
 namespace luabind {
 	namespace detail {
@@ -48,8 +49,7 @@ namespace luabind {
 			throw cast_failed(L, typeid(T));
 #else
 			cast_failed_callback_fun e = get_cast_failed_callback();
-			// NOTE: Fix later
-			if (e) const e(L, typeid(T));
+			if (e) e(L, typeid(T));
 
 			assert(0 && "the lua function's return value could not be converted."
 				" If you want to handle the error you can use luabind::set_cast_failed_callback()");

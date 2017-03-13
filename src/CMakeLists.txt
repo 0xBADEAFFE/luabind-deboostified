@@ -32,6 +32,7 @@ set(LUABIND_API_HEADERS
 	../luabind/error.hpp
 	../luabind/error_callback_fun.hpp
 	../luabind/exception_handler.hpp
+	../luabind/lua_extensions.hpp
 	../luabind/from_stack.hpp
 	../luabind/function.hpp
 	../luabind/function_introspection.hpp
@@ -152,4 +153,3 @@ else()
 	add_library(luabind STATIC ${LUABIND_SOURCES} ${LUABIND_API_HEADERS} ${LUABIND_DETAIL_API_HEADERS} ${LUABIND_DEFAULT_POLICIES_HEADERS} ${LUABIND_USER_POLICIES_HEADERS})
 endif()
 target_link_libraries(luabind ${LUA_LIBRARIES} ${LUABIND_EXTRA_LIBS})
-
